@@ -1,15 +1,15 @@
 // ---------------------\\
-// JavaScript¹¤¾ß¼¯ºÏ	\\
+// JavaScriptå·¥å…·é›†åˆ	\\
 // Author: CoffeeKiller	\\
 // Date: 2023_10_28		\\
 // ---------------------\\
 
 
 /**
-  * @description: ·À¶¶º¯Êý
-  * @param: {Function} fn: »Øµ÷º¯Êý
-  * @param: {number} delay: ÑÓÊ±
-  * @param: {boolean} immediate: ÊÇ·ñÁ¢¼´µ÷ÓÃ
+  * @description: é˜²æŠ–å‡½æ•°
+  * @param: {Function} fn: å›žè°ƒå‡½æ•°
+  * @param: {number} delay: å»¶æ—¶
+  * @param: {boolean} immediate: æ˜¯å¦ç«‹å³è°ƒç”¨
   */
 function debounce(fn, delay, immediate = false) {
     let timer = null
@@ -44,10 +44,10 @@ function debounce(fn, delay, immediate = false) {
 }
 
 /**
-  * @description: ½ÚÁ÷º¯Êý
-  * @param: {Function} fn: »Øµ÷º¯Êý
-  * @param: {number} interval: Ê±¼ä¼ä¸ô
-  * @param: {object} options: ¿ÉÑ¡²ÎÊý { leadingÊ×´Î´¥·¢, trailing×îºó´¥·¢ }
+  * @description: èŠ‚æµå‡½æ•°
+  * @param: {Function} fn: å›žè°ƒå‡½æ•°
+  * @param: {number} interval: æ—¶é—´é—´éš”
+  * @param: {object} options: å¯é€‰å‚æ•° { leadingé¦–æ¬¡è§¦å‘, trailingæœ€åŽè§¦å‘ }
   */
 function throttle(fn, interval, options = { leading: true, trailing: false }) {
     const { leading, trailing, resultCallback } = options
@@ -92,8 +92,8 @@ function throttle(fn, interval, options = { leading: true, trailing: false }) {
 }
   
 /**
-  * @description: »ñÈ¡URL²ÎÊý
-  * @param: {string} name: ²ÎÊýÃû³Æ
+  * @description: èŽ·å–URLå‚æ•°
+  * @param: {string} name: å‚æ•°åç§°
   */
 function getQueryString(name) {
   var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
@@ -110,10 +110,10 @@ function getQueryString(name) {
 }
 
 /**
-  * @description: ÐÞ¸ÄURL²ÎÊý
-  * @param: {URL} url: URLÁ´½Ó
-  * @param: {string} arg: ÐèÒªÐÞ¸ÄµÄ²ÎÊýÃû
-  * @param: {Object} arg_val: ²ÎÊý¶ÔÏó
+  * @description: ä¿®æ”¹URLå‚æ•°
+  * @param: {URL} url: URLé“¾æŽ¥
+  * @param: {string} arg: éœ€è¦ä¿®æ”¹çš„å‚æ•°å
+  * @param: {Object} arg_val: å‚æ•°å¯¹è±¡
   */
 function changeURLArg(url, arg, arg_val) {
   var pattern = arg + '=([^&]*)';
@@ -132,10 +132,10 @@ function changeURLArg(url, arg, arg_val) {
 }
 
 /**
-  * @description: ÒÆ¶¯¶ËÒ³ÃæÊÊÅä µ¥Î»×ª»» ,Ö§³ÖpxÓërem
+  * @description: ç§»åŠ¨ç«¯é¡µé¢é€‚é… å•ä½è½¬æ¢ ,æ”¯æŒpxä¸Žrem
   * @param: {win} Window
   * @param: {doc} Document
-  * @param: {mode} string: µ¥Î»Ä£Ê½, Ìá¹©pxºÍrem¿ÉÑ¡
+  * @param: {mode} string: å•ä½æ¨¡å¼, æä¾›pxå’Œremå¯é€‰
   */
 (function (win, doc, mode) {
   var std = 750;
@@ -241,19 +241,19 @@ function changeURLArg(url, arg, arg_val) {
 
 
 /**
-  * @describe: ÊµÏÖÒ³ÃæÔªËØµÄÆÙ²¼Á÷, µ±Ç°Ö»ÊÊÅäpxµ¥Î»
+  * @describe: å®žçŽ°é¡µé¢å…ƒç´ çš„ç€‘å¸ƒæµ, å½“å‰åªé€‚é…pxå•ä½
   * @date: 2023_11_20 23:29
   */
 class Waterfall {
     constructor(options) {
-        this.$el = null;             // ¸¸ÈÝÆ÷
-        this.count = 4;              // ÁÐÊý
-        this.gap = 10;               // ¼ä¾à
+        this.$el = null;             // çˆ¶å®¹å™¨
+        this.count = 4;              // åˆ—æ•°
+        this.gap = 10;               // é—´è·
         Object.assign(this, options);
-        this.width = 0;              // ÁÐµÄ¿í¶È
-        this.items = [];             // ×ÓÔªËØ¼¯ºÏ
-        this.H = [];                 // ´æ´¢Ã¿ÁÐµÄ¸ß¶È·½±ã¼ÆËã
-        this.flag = null;            // ÐéÄâ½Úµã¼¯ºÏ
+        this.width = 0;              // åˆ—çš„å®½åº¦
+        this.items = [];             // å­å…ƒç´ é›†åˆ
+        this.H = [];                 // å­˜å‚¨æ¯åˆ—çš„é«˜åº¦æ–¹ä¾¿è®¡ç®—
+        this.flag = null;            // è™šæ‹ŸèŠ‚ç‚¹é›†åˆ
         this.init();
     }
     init() {
@@ -296,9 +296,32 @@ class Waterfall {
     }
 }
 
-// Ê¹ÓÃÊ¾Àý
+// ä½¿ç”¨ç¤ºä¾‹
 window.onload = new Waterfall({
     $el: document.querySelector(".wrapper"),
     count: 4,
     gap: 10
 })
+
+
+/**
+Â * @description èŽ·å–æŒ‡å®šèŒƒå›´å†…çš„æŒ‡å®šæ•°é‡çš„éšæœºæ•°æ•°ç»„ (é»˜è®¤èŒƒå›´1-27, æ•°é‡5)
+Â * @param {Array} oldNums æ—§éšæœºæ•°æ•°ç»„, æ—§å€¼ä¸ä¼šå‡ºçŽ°åœ¨æ–°çš„éšæœºæ•°æ•°ç»„å†… (é»˜è®¤ä¸å¯ç”¨)
+Â * @returns {Array} éšæœºæ•°æ•°ç»„
+Â * */ 
+function genRandomNum(start=1, end=27, count=5, oldNums=[0]) {
+Â  Â  const numbers = Array.from(Array(end - start + 1).keys(), (x) => x + start);
+Â  Â  const result = [];
+Â  Â  for (let i = 0; i < count; i++) {
+Â  Â  Â  const index = Math.floor(Math.random() * numbers.length);
+Â  Â  Â  if (numbers.length <= 0) {
+Â  Â  Â  Â  break;
+Â  Â  Â  }
+Â  Â  Â  result.push(numbers[index]);
+Â  Â  Â  numbers.splice(index, 1);
+Â  Â  }
+Â  Â  if ( oldNums.find(item => result.includes(item)) ) {
+Â  Â  Â  Â  return genRandomNum(start, end, count, oldNums)
+Â  Â  }
+Â  Â  return result;
+}
