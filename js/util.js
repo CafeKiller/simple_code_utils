@@ -310,18 +310,36 @@ window.onload = new Waterfall({
  * @returns {Array} 随机数数组
  * */ 
 function genRandomNum(start=1, end=27, count=5, oldNums=[0]) {
-    const numbers = Array.from(Array(end - start + 1).keys(), (x) => x + start);
-    const result = [];
-    for (let i = 0; i < count; i++) {
-      const index = Math.floor(Math.random() * numbers.length);
-      if (numbers.length <= 0) {
-        break;
-      }
-      result.push(numbers[index]);
-      numbers.splice(index, 1);
-    }
-    if ( oldNums.find(item => result.includes(item)) ) {
-        return genRandomNum(start, end, count, oldNums)
-    }
-    return result;
+  const numbers = Array.from(Array(end - start + 1).keys(), (x) => x + start);
+    const result = [];
+    for (let i = 0; i < count; i++) {
+      const index = Math.floor(Math.random() * numbers.length);
+      if (numbers.length <= 0) {
+        break;
+      }
+      result.push(numbers[index]);
+      numbers.splice(index, 1);
+    }
+    if ( oldNums.find(item => result.includes(item)) ) {
+        return genRandomNum(start, end, count, oldNums)
+    }
+    return result;
+}
+
+
+/**
+ * @description 判断元素有没有子元素 
+ * @param {HTMLElement} e 
+ * @returns true存在 | false不存在
+*/
+function hasChildren(e){
+  let children = e.childNodes,
+      len = children.length;
+  
+  for (let i = 0; i < len; i++) {
+    if (children[i].nodeType === 1) {
+      return true
+    }
+  }
+  return false;
 }
