@@ -172,6 +172,7 @@ window.onload = new Waterfall({
 })
 
 
+
 /**
   * @description: 移动端页面适配 单位转换 ,支持px与rem
   * @param: {win} Window
@@ -268,4 +269,57 @@ window.onload = new Waterfall({
             }
         }
     }
-  })(window, document, "px");
+})(window, document, "px");
+
+
+
+/**
+ * 屏幕自适应适配处理; 注意! 非开箱即用, 需要更具实际需求进行调整;
+ * 对于支持 zoom 属性的浏览器如: chrome 建议直接使用 zoom 进行处理
+ * 对于不支持 zoom 属性的浏览器如: firefox 建议使用 scale 处理
+ * */ 
+var adaptViewport = (function () {
+    function detectIE() {
+        var ua = window.navigator.userAgent;
+        var msie = ua.match(/MSIE (\d+)/g);
+        if (msie != null) {
+        return parseInt(msie[0].match(/\d+/g)[0]);
+        }
+        // IE 11
+        var trident = ua.indexOf("Trident/");
+        if (trident > 0) {
+        var rv = ua.indexOf("rv:");
+        return parseInt(ua.substring(rv + 3, ua.indexOf(".", rv)),
+        10);
+        }
+        return false;
+    }
+
+    var minWidth = 800;         // 最小宽度
+    var designWidth = 1920;     // 设计稿宽度
+    var isFirefox = navigator.userAgent.indexOf("Firefox") != -1;
+    var ieVersion = detectIE(); // IE 版本
+    var zoom = 1;               // 缩放比例
+
+    // 屏幕尺寸变化时处理函数
+    function resize() {
+        // doc.clientWidth不包含滚动栏宽度
+        var ww = document.documentElement.clientWidth || window.innerWidth;
+        var realWid = Math.max(ww, minWidth);   // 当前实际页面宽度
+        zoom = realWid / designWidth;           // 当前实际缩放比例
+        if (ieVersion && ieVersion < 9) return;
+
+        // firefox不支持zoom. ie9, 10, 11 zoom属性不支持/存在漏洞
+        if (isFirefox || ieVersion >= 9) {
+            if (zoom !== 1) {
+                const transformOrigin = "0% 0%";
+                // TODO [1]此处放置不支持 zoom 属性的样式处理, 建议使用 scale 处理
+            }
+        } else {
+            // TODO [2]此处放置支持 zoom 属性的样式处理
+        }
+        // TODO [3]此处可放置一些通用的样式处理
+    }
+    resize();
+    window.onresize = resize;
+})();

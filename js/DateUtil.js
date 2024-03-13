@@ -39,6 +39,8 @@ function convertFromStringToDate(responseDate) {
   }
 }
 
+
+
 /**
  * @descr 是否为正常date
  * @param {Date} date
@@ -47,6 +49,7 @@ function convertFromStringToDate(responseDate) {
 function isValidDate(date) {
   return date instanceof Date && !isNaN(date.getTime());
 }
+
 
 
 /**
