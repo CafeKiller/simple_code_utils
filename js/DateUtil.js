@@ -49,3 +49,16 @@ function isValidDate(date) {
 }
 
 
+/**
+ * @description 时间对比函数，传入时间，查询时间是否已过
+ * @param {string} start 开始时间
+ * @param {string | Data} serverTime [可选]服务器时间
+ * @returns {boolean}
+*/
+function timeContrast(startTime, serverTime="") {
+  // 兼容处理: 部分iOS机型处理时间格式不同
+  startTime = serverTime.replace(/\-/g, "/");
+  let curren = serverTime ? new Date(serverTime).getTime() : new Date().getTime(),
+    start = new Date(startTime).getTime();
+  return curren >= start;
+}
