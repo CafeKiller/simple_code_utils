@@ -1,89 +1,88 @@
 /**
  * 创建一个音频播放管理对象
- * @param {string} [BGDomID='audioBg'] 用于播放背景音乐的 audio 标签ID
- * @param {string} [BGBtn=".music-btn"] 用于控制音乐是否播放的 class 标签
+ * @param {string} BGDomID 可选项, 用于播放背景音乐的 audio 标签ID, 默认audioBg
+ * @param {string} BGBtn 可选项, 用于控制音乐是否播放的 class 标签, 默认.music-btn
+ * @returns 音乐/音效控制对象
  * */ 
 function createBGMusic(BGDomID = 'audioBg', BGBtn = ".music-btn" ) {
     // 自动播放
-    var isAudioInit = false;
-    var bgAudio = document.getElementById(BGDomID);
-  
-    var _play = function () {
-        if (!isAudioInit) {
-            bgAudio.play();
-            isAudioInit = true;
-        };
-        document.removeEventListener('click', _play, false);
+    let isAudioInit = false;
+    let bgAudio = document.getElementById(BGDomID);
+    if (bgAudio) {
+        const _play = function () {
+            if (!isAudioInit) {
+                bgAudio.play();
+                isAudioInit = true;
+            };
+            document.removeEventListener('click', _play, false);
+        }
+        document.addEventListener('click', _play, false);
+        const ready = function () {
+            WeixinJSBridge.on('onPageStateChange', function (res) {
+                if (res.active == 'false') {
+                    bgAudio.pause();
+                } else {
+                    if (isBgAudioPlaying) {
+                        toggleBgAudio(true);
+                    }
+                }
+            })
+            _play();
+        }
+        // 处理微信相关
+        if (!window.WeixinJSBridge || !WeixinJSBridge.invoke) {
+            document.addEventListener('WeixinJSBridgeReady', ready, false);
+        } else {
+            ready();
+        }
     }
-  
-    document.addEventListener('click', _play, false);
-  
-    var ready = function () {
-        WeixinJSBridge.on('onPageStateChange', function (res) {
-            if (res.active == 'false') {
+
+    let _musicBTN = document.querySelector(BGBtn);
+    let isBgAudioPlaying = true;
+    if (_musicBTN) {
+        // 监听页面是否进入后台
+        document.addEventListener("visibilitychange", function () {
+            if (document.hidden) {
                 bgAudio.pause();
             } else {
-                if (isBgAudioPlaying) {
-                    toggleBgAudio(true);
-                }
+                if (isBgAudioPlaying) toggleBgAudio(true);
             }
-        })
-        _play();
-    }
-    // 处理微信相关
-    if (!window.WeixinJSBridge || !WeixinJSBridge.invoke) {
-        document.addEventListener('WeixinJSBridgeReady', ready, false)
-    } else {
-        ready()
-    }
-  
-    // 监听页面是否进入后台
-    document.addEventListener("visibilitychange", function () {
-        if (document.hidden) {
-            bgAudio.pause();
-        } else {
-            if (isBgAudioPlaying) toggleBgAudio(true);
+        });
+        // 音乐开关
+        function toggleBgAudio(isplay) {
+            if (isplay) {
+                bgAudio.play();
+                _musicBTN && (_musicBTN.classList.remove('off'));
+            } else {
+                bgAudio.pause();
+                _musicBTN && (_musicBTN.classList.add('off'));
+            }
+            isBgAudioPlaying = isplay;
         }
-    });
-  
-    // 音乐开关
-    var _musicBTN = document.querySelector(BGBtn)
-    var isBgAudioPlaying = true
-    function toggleBgAudio(isplay) {
-        if (isplay) {
-            bgAudio.play()
-            _musicBTN && (_musicBTN.classList.remove('off'))
-        } else {
-            bgAudio.pause()
-            _musicBTN && (_musicBTN.classList.add('off'))
-        }
-        isBgAudioPlaying = isplay
-    }
-    if (_musicBTN) {
         _musicBTN.addEventListener('click', function () {
-            toggleBgAudio(!isBgAudioPlaying)
-        })
+            toggleBgAudio(!isBgAudioPlaying);
+        });
     }
-  
+
     // 音效
-    var isPlaying = false
-    function playSoundEffect(id, force = true, fn) {
+    let isPlaying = false;
+    const playSoundEffect = function(id, force = true, fn) {
         if (isBgAudioPlaying) {
             if (force || !isPlaying) {
-                var snd = document.createElement('audio')
-                snd.src = id
+                let snd = document.createElement('audio');
+                snd.src = id;
                 snd.onended = function() {
-                    isPlaying = false
-                    fn && fn()
+                    isPlaying = false;
+                    fn && fn();
                 };
-                snd.play()
-                isPlaying = true
+                snd.play();
+                isPlaying = true;
             }
         }
     }
-  
+
     return {
-        muted: () => !isBgAudioPlaying,
+        muted: () => isBgAudioPlaying = !isBgAudioPlaying,
         playSoundEffect,
     }
 }
