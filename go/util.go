@@ -4,8 +4,8 @@ if ip == ""{
   ip = exnet.ClientIP(r)
 }
 
-// ClientPublicIP ¾¡×î´óÅ¬Á¦ÊµÏÖ»ñÈ¡¿Í»§¶Ë¹«Íø IP µÄËã·¨¡£
-// ½âÎö X-Real-IP ºÍ X-Forwarded-For ÒÔ±ãÓÚ·´Ïò´úÀí£¨nginx »ò haproxy£©¿ÉÒÔÕı³£¹¤×÷¡£
+// ClientPublicIP å°½æœ€å¤§åŠªåŠ›å®ç°è·å–å®¢æˆ·ç«¯å…¬ç½‘ IP çš„ç®—æ³•ã€‚
+// è§£æ X-Real-IP å’Œ X-Forwarded-For ä»¥ä¾¿äºåå‘ä»£ç†ï¼ˆnginx æˆ– haproxyï¼‰å¯ä»¥æ­£å¸¸å·¥ä½œã€‚
 func ClientPublicIP(r *http.Request) string {
 	var ip string
 	for _, ip = range strings.Split(r.Header.Get("X-Forwarded-For"), ",") {
@@ -29,12 +29,12 @@ func ClientPublicIP(r *http.Request) string {
 	return ""
 }
 
-// HasLocalIPddr ¼ì²â IP µØÖ·×Ö·û´®ÊÇ·ñÊÇÄÚÍøµØÖ·
+// HasLocalIPddr æ£€æµ‹ IP åœ°å€å­—ç¬¦ä¸²æ˜¯å¦æ˜¯å†…ç½‘åœ°å€
 func HasLocalIPddr(ip string) bool {
 	return HasLocalIP(net.ParseIP(ip))
 }
 
-// HasLocalIP ¼ì²â IP µØÖ·ÊÇ·ñÊÇÄÚÍøµØÖ·
+// HasLocalIP æ£€æµ‹ IP åœ°å€æ˜¯å¦æ˜¯å†…ç½‘åœ°å€
 func HasLocalIP(ip net.IP) bool {
 	for _, network := range localNetworks {
 		if network.Contains(ip) {
@@ -45,11 +45,31 @@ func HasLocalIP(ip net.IP) bool {
 	return ip.IsLoopback()
 }
 
-// RemoteIP Í¨¹ı RemoteAddr »ñÈ¡ IP µØÖ·£¬ Ö»ÊÇÒ»¸ö¿ìËÙ½âÎö·½·¨¡£
+// RemoteIP é€šè¿‡ RemoteAddr è·å– IP åœ°å€ï¼Œ åªæ˜¯ä¸€ä¸ªå¿«é€Ÿè§£ææ–¹æ³•ã€‚
 func RemoteIP(r *http.Request) string {
 	if ip, _, err := net.SplitHostPort(strings.TrimSpace(r.RemoteAddr)); err == nil {
 		return ip
 	}
 
 	return ""
+}
+
+
+// RemoveDuplicate ä¸¤ä¸ªliståˆå¹¶å»é‡
+func RemoveDuplicate(arr []string) []string {
+
+	// åˆ›å»ºä¸€ä¸ªç©ºmap, ç”¨äºæ ‡è¯†å…ƒç´ æ˜¯å¦å·²å­˜åœ¨
+	tmap := make(map[string]bool)
+	// åˆ›å»ºä¸€ä¸ªæ–°çš„å­—ç¬¦ä¸²åˆ‡ç‰‡ç”¨äºå­˜å‚¨æ–°å»é‡åçš„å…ƒç´ 
+	result := []string{}
+
+	// éå†
+	for _, str := range arr {
+		// åˆ¤æ–­å…ƒç´ æ˜¯å¦å­˜åœ¨ä¸mapä¸­, ä¸å­˜åœ¨åˆ™åŠ å…¥result, å­˜åœ¨åˆ™åœ¨tmapä¸­æ ‡è¯†
+		if _, ok := tmap[str];!ok {
+			tmap[str] = true
+			result = append(result, str)
+		}
+	}
+	return result
 }
