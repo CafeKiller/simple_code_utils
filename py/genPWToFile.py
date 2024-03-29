@@ -1,44 +1,44 @@
-from itertools import product  # µ¼ÈëitertoolsÄ£¿éÖĞµÄproductº¯Êı£¬ÓÃÓÚÉú³ÉµÑ¿¨¶û»ı
-import os  # µ¼ÈëosÄ£¿é£¬ÓÃÓÚ´¦ÀíÎÄ¼şºÍÄ¿Â¼
+from itertools import product  # å¯¼å…¥itertoolsæ¨¡å—ä¸­çš„productå‡½æ•°ï¼Œç”¨äºç”Ÿæˆç¬›å¡å°”ç§¯
+import os  # å¯¼å…¥osæ¨¡å—ï¼Œç”¨äºå¤„ç†æ–‡ä»¶å’Œç›®å½•
 
 def generate_passwords(length, use_letters, use_digits, use_chars):
     characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789~!@#$%^&*()'
     if not use_letters:
-        characters = ''.join([c for c in characters if not c.isalpha()])  # Èç¹û²»Ê¹ÓÃ×ÖÄ¸£¬Ôò´Ó×Ö·û¼¯ÖĞÒÆ³ıËùÓĞ×ÖÄ¸
+        characters = ''.join([c for c in characters if not c.isalpha()])  # å¦‚æœä¸ä½¿ç”¨å­—æ¯ï¼Œåˆ™ä»å­—ç¬¦é›†ä¸­ç§»é™¤æ‰€æœ‰å­—æ¯
     if not use_digits:
-        characters = ''.join([c for c in characters if not c.isdigit()])  # Èç¹û²»Ê¹ÓÃÊı×Ö£¬Ôò´Ó×Ö·û¼¯ÖĞÒÆ³ıËùÓĞÊı×Ö
+        characters = ''.join([c for c in characters if not c.isdigit()])  # å¦‚æœä¸ä½¿ç”¨æ•°å­—ï¼Œåˆ™ä»å­—ç¬¦é›†ä¸­ç§»é™¤æ‰€æœ‰æ•°å­—
     if not use_chars:
-        characters = ''.join([c for c in characters if c.isalnum() and (not c.isalpha() or not c.isdigit())])  # Èç¹û²»Ê¹ÓÃÌØÊâ×Ö·û£¬Ôò´Ó×Ö·û¼¯ÖĞÒÆ³ıËùÓĞ·Ç×ÖÄ¸ºÍ·ÇÊı×ÖµÄ×Ö·û
-    return [''.join(p) for p in product(characters, repeat=length)]  # Éú³ÉÖ¸¶¨³¤¶ÈµÄÃÜÂëÁĞ±í£¬Ã¿¸öÃÜÂëÓÉ×Ö·û¼¯ÖĞµÄ×Ö·û×é³É
+        characters = ''.join([c for c in characters if c.isalnum() and (not c.isalpha() or not c.isdigit())])  # å¦‚æœä¸ä½¿ç”¨ç‰¹æ®Šå­—ç¬¦ï¼Œåˆ™ä»å­—ç¬¦é›†ä¸­ç§»é™¤æ‰€æœ‰éå­—æ¯å’Œéæ•°å­—çš„å­—ç¬¦
+    return [''.join(p) for p in product(characters, repeat=length)]  # ç”ŸæˆæŒ‡å®šé•¿åº¦çš„å¯†ç åˆ—è¡¨ï¼Œæ¯ä¸ªå¯†ç ç”±å­—ç¬¦é›†ä¸­çš„å­—ç¬¦ç»„æˆ
 
 def write_to_file(passwords, filename):
-    with open(filename, 'a') as f:  # ÒÔ×·¼ÓÄ£Ê½´ò¿ªÎÄ¼ş
-        for password in passwords:  # ±éÀúÃÜÂëÁĞ±í
-            f.write(password + '\n')  # ½«ÃÜÂëĞ´ÈëÎÄ¼ş£¬²¢ÔÚÃ¿¸öÃÜÂëºóÌí¼Ó»»ĞĞ
+    with open(filename, 'a') as f:  # ä»¥è¿½åŠ æ¨¡å¼æ‰“å¼€æ–‡ä»¶
+        for password in passwords:  # éå†å¯†ç åˆ—è¡¨
+            f.write(password + '\n')  # å°†å¯†ç å†™å…¥æ–‡ä»¶ï¼Œå¹¶åœ¨æ¯ä¸ªå¯†ç åæ·»åŠ æ¢è¡Œ
 
 def split_file(file_path, max_size):
-    # ¼ì²éÎÄ¼şÊÇ·ñ´æÔÚ
+    # æ£€æŸ¥æ–‡ä»¶æ˜¯å¦å­˜åœ¨
     if not os.path.exists(file_path):
-        print("ÎÄ¼ş²»´æÔÚ")
+        print("æ–‡ä»¶ä¸å­˜åœ¨")
         return
-    # »ñÈ¡ÎÄ¼ş´óĞ¡
+    # è·å–æ–‡ä»¶å¤§å°
     file_size = os.path.getsize(file_path)
-    # Èç¹ûÎÄ¼ş´óĞ¡Ğ¡ÓÚµÈÓÚÖ¸¶¨´óĞ¡£¬Ö±½Ó·µ»Ø
+    # å¦‚æœæ–‡ä»¶å¤§å°å°äºç­‰äºæŒ‡å®šå¤§å°ï¼Œç›´æ¥è¿”å›
     if file_size <= max_size:
         return
-    # ¼ÆËãĞèÒª²ğ·ÖµÄÎÄ¼şÊıÁ¿
+    # è®¡ç®—éœ€è¦æ‹†åˆ†çš„æ–‡ä»¶æ•°é‡
     num = file_size // max_size + (1 if file_size % max_size > 0 else 0)
     # print(num)
     with open(file_path, 'r') as f:
         for i in range(num-1):
             with open(f"{file_path}_{i}.txt", 'w') as temp_file:
                 temp_file.write(f.read(max_size))
-            print(f"ÎÄ¼şÒÑ²ğ·ÖÎª {file_path}_{i}.txt")
+            print(f"æ–‡ä»¶å·²æ‹†åˆ†ä¸º {file_path}_{i}.txt")
 			
 
 if __name__ == '__main__':
-    passwords = generate_passwords(4, False, False, True)  # Éú³É³¤¶ÈÎª4µÄÃÜÂëÁĞ±í£¬°üº¬×ÖÄ¸¡¢Êı×ÖºÍÌØÊâ×Ö·û£¨¿É¸ù¾İĞèÒªĞŞ¸Ä²ÎÊı£©
-    #for i in range(10):  # Ñ­»·10´Î
-    filename = f'Passwords_'  # Éú³ÉÎÄ¼şÃû
-    write_to_file(passwords, filename)  # ½«ÃÜÂëÁĞ±íĞ´ÈëÎÄ¼ş
-    split_file(filename, 5 * 1024 * 1024)  # ½«ÎÄ¼ş·Ö¸îÎª×î´ó²»³¬¹ı5MBµÄĞÂÎÄ¼ş
+    passwords = generate_passwords(4, False, False, True)  # ç”Ÿæˆé•¿åº¦ä¸º4çš„å¯†ç åˆ—è¡¨ï¼ŒåŒ…å«å­—æ¯ã€æ•°å­—å’Œç‰¹æ®Šå­—ç¬¦ï¼ˆå¯æ ¹æ®éœ€è¦ä¿®æ”¹å‚æ•°ï¼‰
+    #for i in range(10):  # å¾ªç¯10æ¬¡
+    filename = f'Passwords_'  # ç”Ÿæˆæ–‡ä»¶å
+    write_to_file(passwords, filename)  # å°†å¯†ç åˆ—è¡¨å†™å…¥æ–‡ä»¶
+    split_file(filename, 5 * 1024 * 1024)  # å°†æ–‡ä»¶åˆ†å‰²ä¸ºæœ€å¤§ä¸è¶…è¿‡5MBçš„æ–°æ–‡ä»¶
