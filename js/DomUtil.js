@@ -1,11 +1,11 @@
 /**
- * ´´½¨Ò»¸öÒôÆµ²¥·Å¹ÜÀí¶ÔÏó
- * @param {string} BGDomID ¿ÉÑ¡Ïî, ÓÃÓÚ²¥·Å±³¾°ÒôÀÖµÄ audio ±êÇ©ID, Ä¬ÈÏaudioBg
- * @param {string} BGBtn ¿ÉÑ¡Ïî, ÓÃÓÚ¿ØÖÆÒôÀÖÊÇ·ñ²¥·ÅµÄ class ±êÇ©, Ä¬ÈÏ.music-btn
- * @returns ÒôÀÖ/ÒôĞ§¿ØÖÆ¶ÔÏó
+ * åˆ›å»ºä¸€ä¸ªéŸ³é¢‘æ’­æ”¾ç®¡ç†å¯¹è±¡
+ * @param {string} BGDomID å¯é€‰é¡¹, ç”¨äºæ’­æ”¾èƒŒæ™¯éŸ³ä¹çš„ audio æ ‡ç­¾ID, é»˜è®¤audioBg
+ * @param {string} BGBtn å¯é€‰é¡¹, ç”¨äºæ§åˆ¶éŸ³ä¹æ˜¯å¦æ’­æ”¾çš„ class æ ‡ç­¾, é»˜è®¤.music-btn
+ * @returns éŸ³ä¹/éŸ³æ•ˆæ§åˆ¶å¯¹è±¡
  * */ 
 function createBGMusic(BGDomID = 'audioBg', BGBtn = ".music-btn" ) {
-    // ×Ô¶¯²¥·Å
+    // è‡ªåŠ¨æ’­æ”¾
     let isAudioInit = false;
     let bgAudio = document.getElementById(BGDomID);
     if (bgAudio) {
@@ -29,7 +29,7 @@ function createBGMusic(BGDomID = 'audioBg', BGBtn = ".music-btn" ) {
             })
             _play();
         }
-        // ´¦ÀíÎ¢ĞÅÏà¹Ø
+        // å¤„ç†å¾®ä¿¡ç›¸å…³
         if (!window.WeixinJSBridge || !WeixinJSBridge.invoke) {
             document.addEventListener('WeixinJSBridgeReady', ready, false);
         } else {
@@ -40,7 +40,7 @@ function createBGMusic(BGDomID = 'audioBg', BGBtn = ".music-btn" ) {
     let _musicBTN = document.querySelector(BGBtn);
     let isBgAudioPlaying = true;
     if (_musicBTN) {
-        // ¼àÌıÒ³ÃæÊÇ·ñ½øÈëºóÌ¨
+        // ç›‘å¬é¡µé¢æ˜¯å¦è¿›å…¥åå°
         document.addEventListener("visibilitychange", function () {
             if (document.hidden) {
                 bgAudio.pause();
@@ -48,7 +48,7 @@ function createBGMusic(BGDomID = 'audioBg', BGBtn = ".music-btn" ) {
                 if (isBgAudioPlaying) toggleBgAudio(true);
             }
         });
-        // ÒôÀÖ¿ª¹Ø
+        // éŸ³ä¹å¼€å…³
         function toggleBgAudio(isplay) {
             if (isplay) {
                 bgAudio.play();
@@ -64,7 +64,7 @@ function createBGMusic(BGDomID = 'audioBg', BGBtn = ".music-btn" ) {
         });
     }
 
-    // ÒôĞ§
+    // éŸ³æ•ˆ
     let isPlaying = false;
     const playSoundEffect = function(id, force = true, fn) {
         if (isBgAudioPlaying) {
@@ -90,9 +90,9 @@ function createBGMusic(BGDomID = 'audioBg', BGBtn = ".music-btn" ) {
 
 
 /**
- * @description ÅĞ¶ÏÔªËØÓĞÃ»ÓĞ×ÓÔªËØ 
+ * @description åˆ¤æ–­å…ƒç´ æœ‰æ²¡æœ‰å­å…ƒç´  
  * @param {HTMLElement} e 
- * @returns true´æÔÚ | false²»´æÔÚ
+ * @returns trueå­˜åœ¨ | falseä¸å­˜åœ¨
 */
 function hasChildren(e){
     let children = e.childNodes,
@@ -109,18 +109,18 @@ function hasChildren(e){
 
 
 /**
- * @description ÊµÏÖÒ³ÃæÔªËØµÄÆÙ²¼Á÷, µ±Ç°Ö»ÊÊÅäpxµ¥Î»
+ * @description å®ç°é¡µé¢å…ƒç´ çš„ç€‘å¸ƒæµ, å½“å‰åªé€‚é…pxå•ä½
 */
 class Waterfall {
     constructor(options) {
-        this.$el = null;             // ¸¸ÈİÆ÷
-        this.count = 4;              // ÁĞÊı
-        this.gap = 10;               // ¼ä¾à
+        this.$el = null;             // çˆ¶å®¹å™¨
+        this.count = 4;              // åˆ—æ•°
+        this.gap = 10;               // é—´è·
         Object.assign(this, options);
-        this.width = 0;              // ÁĞµÄ¿í¶È
-        this.items = [];             // ×ÓÔªËØ¼¯ºÏ
-        this.H = [];                 // ´æ´¢Ã¿ÁĞµÄ¸ß¶È·½±ã¼ÆËã
-        this.flag = null;            // ĞéÄâ½Úµã¼¯ºÏ
+        this.width = 0;              // åˆ—çš„å®½åº¦
+        this.items = [];             // å­å…ƒç´ é›†åˆ
+        this.H = [];                 // å­˜å‚¨æ¯åˆ—çš„é«˜åº¦æ–¹ä¾¿è®¡ç®—
+        this.flag = null;            // è™šæ‹ŸèŠ‚ç‚¹é›†åˆ
         this.init();
     }
     init() {
@@ -163,7 +163,7 @@ class Waterfall {
     }
 }
 
-// Ê¹ÓÃÊ¾Àı
+// ä½¿ç”¨ç¤ºä¾‹
 window.onload = new Waterfall({
     $el: document.querySelector(".wrapper"),
     count: 4,
@@ -173,10 +173,10 @@ window.onload = new Waterfall({
 
 
 /**
-  * @description: ÒÆ¶¯¶ËÒ³ÃæÊÊÅä µ¥Î»×ª»» ,Ö§³ÖpxÓërem
+  * @description: ç§»åŠ¨ç«¯é¡µé¢é€‚é… å•ä½è½¬æ¢ ,æ”¯æŒpxä¸rem
   * @param: {win} Window
   * @param: {doc} Document
-  * @param: {mode} string: µ¥Î»Ä£Ê½, Ìá¹©pxºÍrem¿ÉÑ¡
+  * @param: {mode} string: å•ä½æ¨¡å¼, æä¾›pxå’Œremå¯é€‰
   */
 (function (win, doc, mode) {
     var std = 750;
@@ -273,9 +273,9 @@ window.onload = new Waterfall({
 
 
 /**
- * ÆÁÄ»×ÔÊÊÓ¦ÊÊÅä´¦Àí; ×¢Òâ! ·Ç¿ªÏä¼´ÓÃ, ĞèÒª¸ü¾ßÊµ¼ÊĞèÇó½øĞĞµ÷Õû;
- * ¶ÔÓÚÖ§³Ö zoom ÊôĞÔµÄä¯ÀÀÆ÷Èç: chrome ½¨ÒéÖ±½ÓÊ¹ÓÃ zoom ½øĞĞ´¦Àí
- * ¶ÔÓÚ²»Ö§³Ö zoom ÊôĞÔµÄä¯ÀÀÆ÷Èç: firefox ½¨ÒéÊ¹ÓÃ scale ´¦Àí
+ * å±å¹•è‡ªé€‚åº”é€‚é…å¤„ç†; æ³¨æ„! éå¼€ç®±å³ç”¨, éœ€è¦æ›´å…·å®é™…éœ€æ±‚è¿›è¡Œè°ƒæ•´;
+ * å¯¹äºæ”¯æŒ zoom å±æ€§çš„æµè§ˆå™¨å¦‚: chrome å»ºè®®ç›´æ¥ä½¿ç”¨ zoom è¿›è¡Œå¤„ç†
+ * å¯¹äºä¸æ”¯æŒ zoom å±æ€§çš„æµè§ˆå™¨å¦‚: firefox å»ºè®®ä½¿ç”¨ scale å¤„ç†
  * */ 
 var adaptViewport = (function () {
     function detectIE() {
@@ -294,31 +294,104 @@ var adaptViewport = (function () {
         return false;
     }
 
-    var minWidth = 800;         // ×îĞ¡¿í¶È
-    var designWidth = 1920;     // Éè¼Æ¸å¿í¶È
+    var minWidth = 800;         // æœ€å°å®½åº¦
+    var designWidth = 1920;     // è®¾è®¡ç¨¿å®½åº¦
     var isFirefox = navigator.userAgent.indexOf("Firefox") != -1;
-    var ieVersion = detectIE(); // IE °æ±¾
-    var zoom = 1;               // Ëõ·Å±ÈÀı
+    var ieVersion = detectIE(); // IE ç‰ˆæœ¬
+    var zoom = 1;               // ç¼©æ”¾æ¯”ä¾‹
 
-    // ÆÁÄ»³ß´ç±ä»¯Ê±´¦Àíº¯Êı
+    // å±å¹•å°ºå¯¸å˜åŒ–æ—¶å¤„ç†å‡½æ•°
     function resize() {
-        // doc.clientWidth²»°üº¬¹ö¶¯À¸¿í¶È
+        // doc.clientWidthä¸åŒ…å«æ»šåŠ¨æ å®½åº¦
         var ww = document.documentElement.clientWidth || window.innerWidth;
-        var realWid = Math.max(ww, minWidth);   // µ±Ç°Êµ¼ÊÒ³Ãæ¿í¶È
-        zoom = realWid / designWidth;           // µ±Ç°Êµ¼ÊËõ·Å±ÈÀı
+        var realWid = Math.max(ww, minWidth);   // å½“å‰å®é™…é¡µé¢å®½åº¦
+        zoom = realWid / designWidth;           // å½“å‰å®é™…ç¼©æ”¾æ¯”ä¾‹
         if (ieVersion && ieVersion < 9) return;
 
-        // firefox²»Ö§³Özoom. ie9, 10, 11 zoomÊôĞÔ²»Ö§³Ö/´æÔÚÂ©¶´
+        // firefoxä¸æ”¯æŒzoom. ie9, 10, 11 zoomå±æ€§ä¸æ”¯æŒ/å­˜åœ¨æ¼æ´
         if (isFirefox || ieVersion >= 9) {
             if (zoom !== 1) {
                 const transformOrigin = "0% 0%";
-                // TODO [1]´Ë´¦·ÅÖÃ²»Ö§³Ö zoom ÊôĞÔµÄÑùÊ½´¦Àí, ½¨ÒéÊ¹ÓÃ scale ´¦Àí
+                // TODO [1]æ­¤å¤„æ”¾ç½®ä¸æ”¯æŒ zoom å±æ€§çš„æ ·å¼å¤„ç†, å»ºè®®ä½¿ç”¨ scale å¤„ç†
             }
         } else {
-            // TODO [2]´Ë´¦·ÅÖÃÖ§³Ö zoom ÊôĞÔµÄÑùÊ½´¦Àí
+            // TODO [2]æ­¤å¤„æ”¾ç½®æ”¯æŒ zoom å±æ€§çš„æ ·å¼å¤„ç†
         }
-        // TODO [3]´Ë´¦¿É·ÅÖÃÒ»Ğ©Í¨ÓÃµÄÑùÊ½´¦Àí
+        // TODO [3]æ­¤å¤„å¯æ”¾ç½®ä¸€äº›é€šç”¨çš„æ ·å¼å¤„ç†
     }
     resize();
     window.onresize = resize;
 })();
+
+
+
+/**
+ * ä½¿ç”¨å¯¹è±¡çš„æ ¼å¼,ä¸ºé¡µé¢è¡¥å……æ ·å¼, å¯ä»¥ç”¨äºå¤„ç†å› æ— æ³•ä¿®æ”¹è¡Œå†…æ ·å¼è€Œå¯¼è‡´çš„é—®é¢˜
+ * @param {object} rules CSSæ ·å¼è§„åˆ™å¯¹è±¡
+ * @example
+ * const cssRules = {
+ *     ".font1":{
+ *         "font-size":"18px",
+ *         "color": "skyblue"
+ *     },
+ *     ".box1":{"width":"200px !important"}
+ * }
+ * addStylesheetRules(cssRules);
+ * */ 
+function addStylesheetRules(rules) {
+    const styleEl = document.createElement("style");
+    document.head.appendChild(styleEl);
+    const styleSheet = styleEl.sheet;
+    for (const selector in rules) {
+        let propStr = ``;
+        for (const cssKey in rules[selector]) {
+            if (Object.hasOwnProperty.call(rules[selector], cssKey)) {
+                propStr += `${cssKey}: ${rules[selector][cssKey]};`;
+            }
+        }
+        styleSheet.insertRule(
+            `${selector}{ ${propStr} }`,
+            styleSheet.cssRules.length,
+        );
+    }
+}
+
+
+
+/**
+ * åœ¨é¡µé¢ä¸­æ·»åŠ æŒ‰é’®æ¥å¯¹é¡µé¢è¿›è¡Œæµ‹è¯•, éœ€è¦é…åˆ addStylesheetRules å‡½æ•°ä¸€èµ·ä½¿ç”¨
+ * @param {Array} buttonList æŒ‰é’®å¯¹åº”çš„é…ç½®
+ * @param {options} options.tagDOM æ·»åŠ åˆ°æŒ‡å®šDOMå†…,å¯é€‰,é»˜è®¤åœ¨bodyå†…
+ * @param {options} options.cssRules æ·»åŠ åˆ°æŒ‡å®šCSSè§„åˆ™,å¯é€‰
+ * @example 
+ * const buttonList = [
+ *     { name: 'åŠŸèƒ½æµ‹è¯•1', callback: "alert('hello world')" },
+ *     { name: 'åŠŸèƒ½æµ‹è¯•2', callback: "console.log('Data.now', Data.now())" },
+ *     { name: 'åŠŸèƒ½æµ‹è¯•3', callback: "console.error('error!!!')" },
+ * ];
+ * addTestButton(buttonList);
+*/
+function addTestButton(buttonList, options={tagDOM:"body",cssRules:undefined}) {
+    if(!buttonList || buttonList.lenght)  return;
+
+    const testBtnDOM = document.createElement('div');
+    testBtnDOM.id = 'test_but-wrapper';
+    testBtnDOM.className = 'test_but-wrapper';
+
+    document.querySelector(options.tagDOM).appendChild(testBtnDOM);
+    // ä½¿ç”¨é»˜è®¤CSSæ ·å¼
+    if (!options.cssRules) {
+        options.cssRules = {
+            ".test_but-wrapper" : {
+                "position" : "fixed","bottom" : "0px","left": "0px",
+                "z-index": "10","display": "flex","transform": "scale(0.8)",
+            },
+            ".test_but-wrapper button" : {"height" : "36px","font-size" : "20px",}
+        }
+    }
+    addStylesheetRules(options.cssRules);
+
+    document.querySelector(".test_but-wrapper").innerHTML = buttonList.map((item) => {
+        return `<button onclick="${item.callback}">${item.name}</button>`;
+    }).join('');
+}
