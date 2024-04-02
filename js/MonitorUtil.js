@@ -1,20 +1,20 @@
 /**
- * @description Ò»¸ö¼òÒ×µÄÔ­ÉúĞÔÄÜ¼àÊÓÆ÷¶ÔÏó, ÓÃÓÚĞÔÄÜ¼à¿ØÓëÊı¾İÉÏ±¨
+ * @description ä¸€ä¸ªç®€æ˜“çš„åŸç”Ÿæ€§èƒ½ç›‘è§†å™¨å¯¹è±¡, ç”¨äºæ€§èƒ½ç›‘æ§ä¸æ•°æ®ä¸ŠæŠ¥
  * */ 
 function createMonitor() {
     const monitor = {
-        url: '', // Êı¾İÉÏ´«µØÖ·
-        performance: {}, // ĞÔÄÜĞÅÏ¢
-        resources: {}, // ×ÊÔ´ĞÅÏ¢
-        errors: [], // ´íÎóĞÅÏ¢
-        user: { // ÓÃ»§ĞÅÏ¢
-            screen: screen.width, // ÆÁÄ»¿í¶È
-            height: screen.height, // ÆÁÄ»¸ß¶È
-            platform: navigator.platform, // ä¯ÀÀÆ÷Æ½Ì¨
-            userAgent: navigator.userAgent, // ä¯ÀÀÆ÷µÄÓÃ»§´úÀíĞÅÏ¢
-            language: navigator.language, // ä¯ÀÀÆ÷ÓÃ»§½çÃæµÄÓïÑÔ
+        url: '', // æ•°æ®ä¸Šä¼ åœ°å€
+        performance: {}, // æ€§èƒ½ä¿¡æ¯
+        resources: {}, // èµ„æºä¿¡æ¯
+        errors: [], // é”™è¯¯ä¿¡æ¯
+        user: { // ç”¨æˆ·ä¿¡æ¯
+            screen: screen.width, // å±å¹•å®½åº¦
+            height: screen.height, // å±å¹•é«˜åº¦
+            platform: navigator.platform, // æµè§ˆå™¨å¹³å°
+            userAgent: navigator.userAgent, // æµè§ˆå™¨çš„ç”¨æˆ·ä»£ç†ä¿¡æ¯
+            language: navigator.language, // æµè§ˆå™¨ç”¨æˆ·ç•Œé¢çš„è¯­è¨€
         },
-        // ÊÖ¶¯Ìí¼Ó´íÎó
+        // æ‰‹åŠ¨æ·»åŠ é”™è¯¯
         addError(error) {
             const obj = {}
             const { type, msg, url, row, col } = error
@@ -26,20 +26,20 @@ function createMonitor() {
             obj.time = new Date().getTime()
             monitor.errors.push(obj)
         },
-        // ÖØÖÃ monitor ¶ÔÏó
+        // é‡ç½® monitor å¯¹è±¡
         reset() {
             window.performance && window.performance.clearResourceTimings()
             monitor.performance = getPerformance()
             monitor.resources = getResources()
             monitor.errors = []
         },
-        // Çå¿Õ error ĞÅÏ¢
+        // æ¸…ç©º error ä¿¡æ¯
         clearError() {
             monitor.errors = []
         },
-        // ÉÏ´«¼à¿ØÊı¾İ
+        // ä¸Šä¼ ç›‘æ§æ•°æ®
         upload() {
-            // TODO: ×Ô¶¨ÒåÉÏ´«
+            // TODO: è‡ªå®šä¹‰ä¸Šä¼ 
             /*
                 axios.post({
                     url: monitor.url,
@@ -52,37 +52,37 @@ function createMonitor() {
                 })
             */
         },
-        // ÉèÖÃÊı¾İÉÏ´«µØÖ·
+        // è®¾ç½®æ•°æ®ä¸Šä¼ åœ°å€
         setURL(url) {
             monitor.url = url
         },
     }
 
-    // »ñÈ¡ĞÔÄÜĞÅÏ¢
+    // è·å–æ€§èƒ½ä¿¡æ¯
     const getPerformance = () => {
         if (!window.performance) return
         const timing = window.performance.timing
         const performance = {
-            // ÖØ¶¨ÏòºÄÊ±
+            // é‡å®šå‘è€—æ—¶
             redirect: timing.redirectEnd - timing.redirectStart,
-            // °×ÆÁÊ±¼ä
+            // ç™½å±æ—¶é—´
             whiteScreen: whiteScreen,
-            // DOM äÖÈ¾ºÄÊ±
+            // DOM æ¸²æŸ“è€—æ—¶
             dom: timing.domComplete - timing.domLoading,
-            // Ò³Ãæ¼ÓÔØºÄÊ±
+            // é¡µé¢åŠ è½½è€—æ—¶
             load: timing.loadEventEnd - timing.navigationStart,
-            // Ò³ÃæĞ¶ÔØºÄÊ±
+            // é¡µé¢å¸è½½è€—æ—¶
             unload: timing.unloadEventEnd - timing.unloadEventStart,
-            // ÇëÇóºÄÊ±
+            // è¯·æ±‚è€—æ—¶
             request: timing.responseEnd - timing.requestStart,
-            // »ñÈ¡ĞÔÄÜĞÅÏ¢Ê±µ±Ç°Ê±¼ä
+            // è·å–æ€§èƒ½ä¿¡æ¯æ—¶å½“å‰æ—¶é—´
             time: new Date().getTime(),
         }
 
         return performance
     }
 
-    // »ñÈ¡×ÊÔ´ĞÅÏ¢
+    // è·å–èµ„æºä¿¡æ¯
     const getResources = () => {
         if (!window.performance) return
         const data = window.performance.getEntriesByType('resource')
@@ -94,20 +94,20 @@ function createMonitor() {
             img: [],
             link: [],
             fetch: [],
-            // »ñÈ¡×ÊÔ´ĞÅÏ¢Ê±µ±Ç°Ê±¼ä
+            // è·å–èµ„æºä¿¡æ¯æ—¶å½“å‰æ—¶é—´
             time: new Date().getTime(),
         }
 
         data.forEach(item => {
             const arry = resource[item.initiatorType]
             arry && arry.push({
-                // ×ÊÔ´µÄÃû³Æ
+                // èµ„æºçš„åç§°
                 name: item.name,
-                // ×ÊÔ´¼ÓÔØºÄÊ±
+                // èµ„æºåŠ è½½è€—æ—¶
                 duration: item.duration.toFixed(2),
-                // ×ÊÔ´´óĞ¡
+                // èµ„æºå¤§å°
                 size: item.transferSize,
-                // ×ÊÔ´ËùÓÃĞ­Òé
+                // èµ„æºæ‰€ç”¨åè®®
                 protocol: item.nextHopProtocol,
             })
         })
@@ -116,27 +116,27 @@ function createMonitor() {
     }
 
     window.onload = () => {
-        // ÔÚä¯ÀÀÆ÷¿ÕÏĞÊ±¼ä»ñÈ¡ĞÔÄÜ¼°×ÊÔ´ĞÅÏ¢ https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestIdleCallback
+        // åœ¨æµè§ˆå™¨ç©ºé—²æ—¶é—´è·å–æ€§èƒ½åŠèµ„æºä¿¡æ¯ https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestIdleCallback
         if (window.requestIdleCallback) {
             window.requestIdleCallback(() => {
                 monitor.performance = getPerformance()
                 monitor.resources = getResources()
 
-                console.log('Ò³ÃæĞÔÄÜĞÅÏ¢',monitor.performance)
-                console.log('Ò³Ãæ×ÊÔ´ĞÅÏ¢', monitor.resources)
+                console.log('é¡µé¢æ€§èƒ½ä¿¡æ¯',monitor.performance)
+                console.log('é¡µé¢èµ„æºä¿¡æ¯', monitor.resources)
             })
         } else {
             setTimeout(() => {
                 monitor.performance = getPerformance()
                 monitor.resources = getResources()
 
-                console.log('Ò³ÃæĞÔÄÜĞÅÏ¢',monitor.performance)
-                console.log('Ò³Ãæ×ÊÔ´ĞÅÏ¢', monitor.resources)
+                console.log('é¡µé¢æ€§èƒ½ä¿¡æ¯',monitor.performance)
+                console.log('é¡µé¢èµ„æºä¿¡æ¯', monitor.resources)
             }, 0)
         }
     }
 
-    // ²¶»ñ×ÊÔ´¼ÓÔØÊ§°Ü´íÎó js css img...
+    // æ•è·èµ„æºåŠ è½½å¤±è´¥é”™è¯¯ js css img...
     addEventListener('error', e => {
         const target = e.target
         if (target != window) {
@@ -144,35 +144,35 @@ function createMonitor() {
                 type: target.localName,
                 url: target.src || target.href,
                 msg: (target.src || target.href) + ' is load error',
-                // ´íÎó·¢ÉúµÄÊ±¼ä
+                // é”™è¯¯å‘ç”Ÿçš„æ—¶é—´
                 time: new Date().getTime(),
             })
-            console.error('ËùÓĞµÄ´íÎóĞÅÏ¢', monitor.errors)
+            console.error('æ‰€æœ‰çš„é”™è¯¯ä¿¡æ¯', monitor.errors)
         }
     }, true)
 
-    // ¼àÌı js ´íÎó
+    // ç›‘å¬ js é”™è¯¯
     window.onerror = function(msg, url, row, col, error) {
         monitor.errors.push({
-            type: 'javascript', // ´íÎóÀàĞÍ
-            row: row, // ·¢Éú´íÎóÊ±µÄ´úÂëĞĞÊı
-            col: col, // ·¢Éú´íÎóÊ±µÄ´úÂëÁĞÊı
-            msg: error && error.stack? error.stack : msg, // ´íÎóĞÅÏ¢
-            url: url, // ´íÎóÎÄ¼ş
-            time: new Date().getTime(), // ´íÎó·¢ÉúµÄÊ±¼ä
+            type: 'javascript', // é”™è¯¯ç±»å‹
+            row: row, // å‘ç”Ÿé”™è¯¯æ—¶çš„ä»£ç è¡Œæ•°
+            col: col, // å‘ç”Ÿé”™è¯¯æ—¶çš„ä»£ç åˆ—æ•°
+            msg: error && error.stack? error.stack : msg, // é”™è¯¯ä¿¡æ¯
+            url: url, // é”™è¯¯æ–‡ä»¶
+            time: new Date().getTime(), // é”™è¯¯å‘ç”Ÿçš„æ—¶é—´
         })
-        console.error('ËùÓĞµÄ´íÎóĞÅÏ¢', monitor.errors)
+        console.error('æ‰€æœ‰çš„é”™è¯¯ä¿¡æ¯', monitor.errors)
     }
 
-    // ¼àÌı promise ´íÎó È±µãÊÇ»ñÈ¡²»µ½ĞĞÊıÊı¾İ
+    // ç›‘å¬ promise é”™è¯¯ ç¼ºç‚¹æ˜¯è·å–ä¸åˆ°è¡Œæ•°æ•°æ®
     addEventListener('unhandledrejection', e => {
         monitor.errors.push({
             type: 'promise',
             msg: (e.reason && e.reason.msg) || e.reason || '',
-            // ´íÎó·¢ÉúµÄÊ±¼ä
+            // é”™è¯¯å‘ç”Ÿçš„æ—¶é—´
             time: new Date().getTime(),
         })
-        console.error('ËùÓĞµÄ´íÎóĞÅÏ¢', monitor.errors)
+        console.error('æ‰€æœ‰çš„é”™è¯¯ä¿¡æ¯', monitor.errors)
     })
 
     return monitor
@@ -181,15 +181,15 @@ function createMonitor() {
 const monitor = createMonitor()
 
 
-// ²¹³ä:
-// Ò»ÏÂÕâ¶Î´úÂë¿ÉÒÔ»ñÈ¡µ½Ò³ÃæµÄ°×ÆÁ¼ÓÔØÊ±¼ä, ½¨Òé·Åµ½ head ±êÇ©Ö®Ç°
+// è¡¥å……:
+// ä¸€ä¸‹è¿™æ®µä»£ç å¯ä»¥è·å–åˆ°é¡µé¢çš„ç™½å±åŠ è½½æ—¶é—´, å»ºè®®æ”¾åˆ° head æ ‡ç­¾ä¹‹å‰
 var whiteScreen = new Date() - performance.timing.navigationStart
-// Í¨¹ı domLoading ºÍ navigationStart Ò²¿ÉÒÔ
+// é€šè¿‡ domLoading å’Œ navigationStart ä¹Ÿå¯ä»¥
 var whiteScreen = performance.timing.domLoading - performance.timing.navigationStart
 
 
 
-// Í¬ÑùÊÇÒ»¸öĞÔÄÜ¼à¿ØÆ÷, µ«Ê¹ÓÃµÄAPI±È½ÏĞÂ
+// åŒæ ·æ˜¯ä¸€ä¸ªæ€§èƒ½ç›‘æ§å™¨, ä½†ä½¿ç”¨çš„APIæ¯”è¾ƒæ–°
 const base = {
     log() {},
     logPackage() {},
@@ -199,7 +199,7 @@ const base = {
     init() {}
 }
 const pm = (function() {
-    // ÏòÇ°¼æÈİ
+    // å‘å‰å…¼å®¹
     if (!window.performance) return base
     const pMonitor = { ...base }
     let config = {}
@@ -208,7 +208,7 @@ const pm = (function() {
     const setTime = (limit = TIMEOUT) => time => time >= limit
     const getLoadTime = ({ startTime, responseEnd }) => responseEnd - startTime
     const getName = ({ name }) => name
-    // Éú³É±íµ¥Êı¾İ
+    // ç”Ÿæˆè¡¨å•æ•°æ®
     const convert2FormData = (data = {}) =>
         Object.entries(data).reduce((last, [key, value]) => {
             if (Array.isArray(value)) {
@@ -221,7 +221,7 @@ const pm = (function() {
             return last
         }, new FormData()
     )
-    // Æ´½Ó GET Ê±µÄurl
+    // æ‹¼æ¥ GET æ—¶çš„url
     const makeItStr = (data = {}) => Object.entries(data).map(([k, v]) => `${k}=${v}`).join('&')
     pMonitor.getLoadTime = () => {
         const [{ domComplete }] = performance.getEntriesByType('navigation')
@@ -234,7 +234,7 @@ const pm = (function() {
             .filter(item => isTimeout(getLoadTime(item)))
             .map(getName)
     }
-    // ÉÏ±¨Êı¾İ
+    // ä¸ŠæŠ¥æ•°æ®
     pMonitor.log = (url, data = {}, type = 'POST') => {
         const method = type.toLowerCase()
         const urlToUse = method === 'get' ? `${url}?${makeItStr(data)}` : url
@@ -245,12 +245,12 @@ const pm = (function() {
         }
         fetch(urlToUse, init).catch(e => console.log(e))
     }
-    // ·â×°Ò»¸öÉÏ±¨Á½ÏîºËĞÄÊı¾İµÄ·½·¨
+    // å°è£…ä¸€ä¸ªä¸ŠæŠ¥ä¸¤é¡¹æ ¸å¿ƒæ•°æ®çš„æ–¹æ³•
     pMonitor.logPackage = () => {
         const { url, timeoutUrl, method } = config
         const domComplete = pMonitor.getLoadTime()
         const timeoutRes = pMonitor.getTimeoutRes(config.timeout)
-        // ÉÏ±¨Ò³Ãæ¼ÓÔØÊ±¼ä
+        // ä¸ŠæŠ¥é¡µé¢åŠ è½½æ—¶é—´
         pMonitor.log(url, { domComplete }, method)
         if (timeoutRes.length) {
             pMonitor.log(
@@ -262,14 +262,14 @@ const pm = (function() {
             )
         }
     }
-    // ÊÂ¼ş°ó¶¨
+    // äº‹ä»¶ç»‘å®š
     pMonitor.bindEvent = () => {
       const oldOnload = window.onload
       window.onload = e => {
         if (oldOnload && typeof oldOnload === 'function') {
             oldOnload(e)
         }
-        // ¾¡Á¿²»Ó°ÏìÒ³ÃæÖ÷Ïß³Ì
+        // å°½é‡ä¸å½±å“é¡µé¢ä¸»çº¿ç¨‹
         if (window.requestIdleCallback) {
             window.requestIdleCallback(pMonitor.logPackage)
         } else {
@@ -280,9 +280,9 @@ const pm = (function() {
   
     /**
      * @param {object} option
-     * @param {string} option.url Ò³Ãæ¼ÓÔØÊı¾İµÄÉÏ±¨µØÖ·
-     * @param {string} option.timeoutUrl Ò³Ãæ×ÊÔ´³¬Ê±µÄÉÏ±¨µØÖ·
-     * @param {string=} [option.method='POST'] ÇëÇó·½Ê½
+     * @param {string} option.url é¡µé¢åŠ è½½æ•°æ®çš„ä¸ŠæŠ¥åœ°å€
+     * @param {string} option.timeoutUrl é¡µé¢èµ„æºè¶…æ—¶çš„ä¸ŠæŠ¥åœ°å€
+     * @param {string=} [option.method='POST'] è¯·æ±‚æ–¹å¼
      * @param {number=} [option.timeout=10000]
      */
     pMonitor.init = option => {
@@ -293,7 +293,7 @@ const pm = (function() {
             method,
             timeout
         }
-        // °ó¶¨ÊÂ¼ş ÓÃÓÚ´¥·¢ÉÏ±¨Êı¾İ
+        // ç»‘å®šäº‹ä»¶ ç”¨äºè§¦å‘ä¸ŠæŠ¥æ•°æ®
         pMonitor.bindEvent()
     }
   

@@ -1,12 +1,12 @@
 // ---------------------\\
-// Ê±¼äÏà¹ØµÄ¹¤¾ß¼¯ºÏ	\\
+// æ—¶é—´ç›¸å…³çš„å·¥å…·é›†åˆ	\\
 // Author: CoffeeKiller	\\
 // Date: 2023_10_17		\\
 // ---------------------\\
 
 
 /**
- * @descr »ñÈ¡·şÎñÆ÷Ê±¼ä
+ * @descr è·å–æœåŠ¡å™¨æ—¶é—´
  * @return {Date} d
  */
 function getSeverDateTime() {
@@ -23,7 +23,7 @@ function getSeverDateTime() {
 }
 
 /**
- * @descr ×Ö·û´®×ªDate
+ * @descr å­—ç¬¦ä¸²è½¬Date
  * @param {String} responseDate
  * @return {Date}
  */
@@ -42,7 +42,7 @@ function convertFromStringToDate(responseDate) {
 
 
 /**
- * @descr ÊÇ·ñÎªÕı³£date
+ * @descr æ˜¯å¦ä¸ºæ­£å¸¸date
  * @param {Date} date
  * @return {boolean}
  */
@@ -53,13 +53,13 @@ function isValidDate(date) {
 
 
 /**
- * @description Ê±¼ä¶Ô±Èº¯Êı£¬´«ÈëÊ±¼ä£¬²éÑ¯Ê±¼äÊÇ·ñÒÑ¹ı
- * @param {string} start ¿ªÊ¼Ê±¼ä
- * @param {string | Data} serverTime [¿ÉÑ¡]·şÎñÆ÷Ê±¼ä
+ * @description æ—¶é—´å¯¹æ¯”å‡½æ•°ï¼Œä¼ å…¥æ—¶é—´ï¼ŒæŸ¥è¯¢æ—¶é—´æ˜¯å¦å·²è¿‡
+ * @param {string} start å¼€å§‹æ—¶é—´
+ * @param {string | Data} serverTime [å¯é€‰]æœåŠ¡å™¨æ—¶é—´
  * @returns {boolean}
 */
 function timeContrast(startTime, serverTime="") {
-  // ¼æÈİ´¦Àí: ²¿·ÖiOS»úĞÍ´¦ÀíÊ±¼ä¸ñÊ½²»Í¬
+  // å…¼å®¹å¤„ç†: éƒ¨åˆ†iOSæœºå‹å¤„ç†æ—¶é—´æ ¼å¼ä¸åŒ
   startTime = serverTime.replace(/\-/g, "/");
   let curren = serverTime ? new Date(serverTime).getTime() : new Date().getTime(),
     start = new Date(startTime).getTime();
