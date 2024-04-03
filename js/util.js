@@ -7,9 +7,9 @@
 
 /**
   * @description: 防抖函数
-  * @param: {Function} fn: 回调函数
-  * @param: {number} delay: 延时
-  * @param: {boolean} immediate: 是否立即调用
+  * @param {Function} fn: 回调函数
+  * @param {number} delay: 延时
+  * @param {boolean} immediate: 是否立即调用
   */
 function debounce(fn, delay, immediate = false) {
     let timer = null
@@ -47,9 +47,9 @@ function debounce(fn, delay, immediate = false) {
 
 /**
   * @description: 节流函数
-  * @param: {Function} fn: 回调函数
-  * @param: {number} interval: 时间间隔
-  * @param: {object} options: 可选参数 { leading首次触发, trailing最后触发 }
+  * @param {Function} fn: 回调函数
+  * @param {number} interval: 时间间隔
+  * @param {object} options: 可选参数 { leading首次触发, trailing最后触发 }
   */
 function throttle(fn, interval, options = { leading: true, trailing: false }) {
     const { leading, trailing, resultCallback } = options
@@ -96,8 +96,8 @@ function throttle(fn, interval, options = { leading: true, trailing: false }) {
 
 
 /**
-  * @description: 获取URL参数
-  * @param: {string} name: 参数名称
+  * @description 获取URL参数
+  * @param {string} name: 参数名称
   */
 function getQueryString(name) {
     var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
@@ -117,9 +117,9 @@ function getQueryString(name) {
 
 /**
   * @description: 修改URL参数
-  * @param: {URL} url: URL链接
-  * @param: {string} arg: 需要修改的参数名
-  * @param: {Object} arg_val: 参数对象
+  * @param {URL} url: URL链接
+  * @param {string} arg: 需要修改的参数名
+  * @param {Object} arg_val: 参数对象
   */
 function changeURLArg(url, arg, arg_val) {
     var pattern = arg + '=([^&]*)';
@@ -159,4 +159,25 @@ function genRandomNum(start=1, end=27, count=5, oldNums=[0]) {
         return genRandomNum(start, end, count, oldNums)
     }
     return result;
+}
+
+
+
+/**
+ * 简单预加载图片
+ * @param {string} url 图片url
+ * @returns Promise
+ * */ 
+function loadImage(url){
+    return new Promise((resolve, reject) => {
+        let temp_img = new Image();
+        temp_img.src = url;
+        temp_img.onload = () => {
+            resolve("load success");
+        }
+        temp_img.onerror = () => {
+            reject("load error: " + temp_img.src);
+        }
+        temp_img = null;
+    })
 }

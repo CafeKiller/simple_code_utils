@@ -264,18 +264,18 @@ const pm = (function() {
     }
     // 事件绑定
     pMonitor.bindEvent = () => {
-      const oldOnload = window.onload
-      window.onload = e => {
-        if (oldOnload && typeof oldOnload === 'function') {
-            oldOnload(e)
+        const oldOnload = window.onload
+        window.onload = e => {
+                if (oldOnload && typeof oldOnload === 'function') {
+                    oldOnload(e)
+                }
+                // 尽量不影响页面主线程
+                if (window.requestIdleCallback) {
+                    window.requestIdleCallback(pMonitor.logPackage)
+                } else {
+                    setTimeout(pMonitor.logPackage)
+                }
         }
-        // 尽量不影响页面主线程
-        if (window.requestIdleCallback) {
-            window.requestIdleCallback(pMonitor.logPackage)
-        } else {
-            setTimeout(pMonitor.logPackage)
-        }
-      }
     }
   
     /**
