@@ -25,21 +25,19 @@ function debounce(fn, delay, immediate = false) {
                 isInvoke = true
             } else {
                 timer = setTimeout(() => {
-                const result = fn.apply(this, args)
-                resolve(result)
-                isInvoke = false
-                timer = null
+                    const result = fn.apply(this, args)
+                    resolve(result)
+                    isInvoke = false
+                    timer = null
                 }, delay)
             }
         })
     }
-
     _debounce.cancel = function() {
         if (timer) clearTimeout(timer)
         timer = null
         isInvoke = false
     }
-
     return _debounce
 }
 
@@ -181,3 +179,58 @@ function loadImage(url){
         temp_img = null;
     })
 }
+
+
+
+/**
+ * 获取 URL 中的参数并转换为对象格式
+ * @returns { key : value }
+*/
+function getQueryObject() {
+    let objString = arguments.length > 0 && arguments[0] !== undefined
+                    ? arguments[0] : window.location.href
+    objString = objString.replace(/#.*\?/, '&')
+    
+    if (/\?.*#/.test(objString)) objString = objString.replace(/#.*/, '')
+    if (objString.startsWith('&')) objString = objString.substr(1)
+    if (objString.endsWith('&')) objString = objString.substr(0, objString.length-1)
+
+    const result = {}
+    objString.replace(/([^?&=]+)=([^?&=]*)/g, (rs, $1, $2) => {
+        result[decodeURI($1)] = String(decodeURI($2))
+        return rs
+    })
+    return result
+}
+
+
+
+/**
+ * 异步加载 script 脚本
+ * @param {string} url script脚本URL
+ * */ 
+function loadScript(url) {
+    return new Promise(function (resolve) {
+        const script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = url;
+        // IE6-8
+        if (script.readyState) {
+            script.onreadystatechange = function () {
+                if (script.readyState == 'loaded' || script.readyState == 'complete') {
+                    script.onreadystatechange = null;
+                    resolve(url);
+                }
+            };
+        }
+        // ie9+,chrome,ff
+        else {
+            script.onload = function () {
+                resolve(url);
+            };
+        }
+        const oHead = document.getElementsByTagName('head')[0];
+        oHead.appendChild(script);
+    });
+};
+
