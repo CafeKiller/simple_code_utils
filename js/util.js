@@ -234,3 +234,49 @@ function loadScript(url) {
     });
 };
 
+
+
+/**
+ * 使用对象的格式来更新 URL, 
+ * 需要配合 getQueryObject 和 formatUrlParams 函数使用
+ * @param {string} params.link 新URL (无参数)
+ * @param {Object} params.params 需要转换为 query 参数的对象
+ * @param {change} params.change 是否更新链接参数
+ * */ 
+function updateQueryParam(params) {
+    
+    const config = Object.assign({
+        link: '',
+        params: {},
+        change: false,
+    }, params)
+
+    const CSS_STYLE = 'font-size:20px;color:orange;'
+    const updateParams = Object.assign(getQueryObject(), config.params)
+    console.log('%c更新的链接参数%v', CSS_STYLE, updateParams);
+
+    let newUrl = ''
+    if (config.link) {
+        newUrl = config.link+'?'+formatUrlParams(updateParams, true) + window.location.hash
+    } else {
+        newUrl = window.location.protocol + '//' + window.location.host + window.location.pathname
+                    + '?' + formatUrlParams(updateParams, true) + window.location.hash
+    }
+
+    console.log('%c更新的链接%s', CSS_STYLE, newUrl);
+    if (config.change) window.history.replaceState(null, '', newUrl)
+    else return newUrl
+}
+
+/**
+ * 将对象格式的数据来转换为 URL query 参数
+ * @param { Object } params 需要转换为 query 参数的对象
+ * @returns &k1=v1&k2=v2
+ * */ 
+function formatUrlParams(params, slice) {
+    var src = '';
+    for (var key in params) {
+        src += '&' + key + '=' + params[key];
+    }
+    return slice ? src.slice(1) : src;
+};
