@@ -100,11 +100,17 @@ export const hasPageBottom = ():boolean => {
 
 /**
  * 更加美观的控制台 log 输出, 允许自定义颜色和标题
- * @param {Object} options 添加自定义的样式对象
+ * @param { LogStyle } options 添加自定义的样式对象
  * @returns {Object}
  * @example window.log = MyLog({ cust: { defaTitle:'自定义', color:'deepskyblue' } })
  * */ 
-function MyLog(options = {}) : {} {
+type LogStyle = {
+    [key: string]: {
+        defaTitle: string,
+        color: string
+    }
+}
+function MyLog(options: LogStyle) : {} {
 
     const config = Object.assign({
         info: { defaTitle:'Info', color:'#909399'},
@@ -141,6 +147,10 @@ function MyLog(options = {}) : {} {
     })()
 };
 
+const log = MyLog({
+    cust: { defaTitle:'自定义', color:'deepskyblue' }
+})
+
 /**
  * 更加美观的控制台 log 输出, 允许自定义颜色和标题 (使用类的方式书写)
  * @param {Object} options 添加自定义的样式对象
@@ -148,7 +158,7 @@ function MyLog(options = {}) : {} {
  * */ 
 class ILog {
     config = {}
-    constructor(options: {}) {
+    constructor(options: LogStyle) {
 
         this.config = Object.assign({
             info: { defaTitle:'Info', color:'#909399'},
