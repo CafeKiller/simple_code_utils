@@ -280,3 +280,92 @@ function formatUrlParams(params, slice) {
     }
     return slice ? src.slice(1) : src;
 };
+
+
+
+
+/**
+ * 更加美观的控制台 log 输出, 允许自定义颜色和标题
+ * @param {Object} options 添加自定义的样式对象
+ * @returns {Object}
+ * @example window.log = MyLog({ cust: { defaTitle:'自定义', color:'deepskyblue' } })
+ * */ 
+function MyLog(options) {
+
+    const config = Object.assign({
+        info: { defaTitle:'Info', color:'#909399'},
+        error: { defaTitle:'Error', color:'#F56C6C'},
+        warning: { defaTitle:'Warning', color:'#E6A23C'},
+        success: { defaTitle:'Success', color:'#67C23A'},
+    }, options)
+
+    const isEmpty = (value) => {
+        return value == null || value === undefined || value === ''
+    }
+
+    const myPrint = (title, text, color) => {
+        console.log(
+            `%c ${title} %c ${text} %c`,
+            `background:${color};border:1px solid ${color}; padding: 1px; border-radius: 2px 0 0 2px; color: #fff;`,
+            `border:1px solid ${color}; padding: 1px; border-radius: 0 2px 2px 0; color: ${color};`,
+            'background:transparent'
+        )
+    }
+
+    return (() => {
+        const _obj = {}
+        Object.keys(config).forEach( key => {
+            Object.defineProperty(_obj, key, {
+                value: (textOrTitle, content = '') => {
+                    const title = isEmpty(content) ? config[key].defaTitle : textOrTitle
+                    const text = isEmpty(content) ? textOrTitle : content
+                    myPrint(title, text, config[key].color)
+                }
+            })
+        })
+        return _obj
+    })()
+};
+
+/**
+ * 更加美观的控制台 log 输出, 允许自定义颜色和标题 (使用类的方式书写)
+ * @param {Object} options 添加自定义的样式对象
+ * @example const iLog = new ILog()
+ * */ 
+class ILog {
+
+    config = {}
+    
+    constructor(options) {
+
+        this.config = Object.assign({
+            info: { defaTitle:'Info', color:'#909399'},
+            error: { defaTitle:'Error', color:'#F56C6C'},
+            warning: { defaTitle:'Warning', color:'#E6A23C'},
+            success: { defaTitle:'Success', color:'#67C23A'},
+        }, options)
+
+        Object.keys(this.config).forEach( key => {
+            Object.defineProperty(this, key, {
+                value: (textOrTitle, content = '') => {
+                    const title = this.isEmpty(content) ? this.config[key].defaTitle : textOrTitle
+                    const text = this.isEmpty(content) ? textOrTitle : content
+                    this.myPrint(title, text, this.config[key].color)
+                }
+            })
+        })
+    }
+
+    isEmpty(value) {
+        return value == null || value === undefined || value === ''
+    }
+
+    myPrint(title, text, color) {
+        console.log(
+            `%c ${title} %c ${text} %c`,
+            `background:${color};border:1px solid ${color}; padding: 1px; border-radius: 2px 0 0 2px; color: #fff;`,
+            `border:1px solid ${color}; padding: 1px; border-radius: 0 2px 2px 0; color: ${color};`,
+            'background:transparent'
+        )
+    }
+}
