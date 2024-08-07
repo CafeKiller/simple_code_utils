@@ -97,3 +97,65 @@ export const hasPageBottom = ():boolean => {
     }
     return false
 }
+
+/**
+ * @description 借助HTML5 Blob实现文本信息文件下载
+ * @param {string} url 图片url
+ * @param {string} name 图片名（需要带后缀，否则默认下载jfit格式）
+ */
+const downloadRes = async (url: string, name: string): Promise<void> => {
+    try {
+        let response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        // 内容转变成blob地址
+        let blob = await response.blob();
+        // 创建隐藏的可下载链接
+        let objectUrl = window.URL.createObjectURL(blob);
+        let a = document.createElement('a');
+        // 地址
+        a.href = objectUrl;
+        // 修改文件名
+        a.download = name;
+        // 触发点击
+        document.body.appendChild(a);
+        a.click();
+        // 移除
+        setTimeout(() => document.body.removeChild(a), 1000);
+    } catch (error) {
+        console.error('Download failed:', error);
+    }
+};
+
+
+/**
+ * @description 借助 base64 下载图片资源
+ * @param {string} url 图片url
+ * @param {string} name 图片名（需要带后缀，否则默认下载jfit格式）
+ */
+const downloadImg = async (url: string, name: string): Promise<void> => {
+    try {
+        const canvas = document.createElement('canvas') as HTMLCanvasElement;
+        const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
+        const img = new Image();
+        img.crossOrigin = 'Anonymous';
+        img.onload = () => {
+            canvas.height = img.height;
+            canvas.width = img.width;
+            ctx.drawImage(img, 0, 0);
+            const dataURL = canvas.toDataURL('image/png');
+            const a = document.createElement('a');
+            a.href = dataURL;
+            a.download = name;
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(() => {
+                document.body.removeChild(a);
+            }, 1000);
+        };
+        img.src = url;
+    } catch (error) {
+        console.error('Download failed:', error);
+    }
+};

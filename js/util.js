@@ -160,3 +160,54 @@ function genRandomNum(start=1, end=27, count=5, oldNums=[0]) {
     }
     return result;
 }
+
+/**
+ * @description 借助HTML5 Blob实现文本信息文件下载
+ * @param {*} url 图片url
+ * @param {*} name 图片名（需要带后缀，否则默认下载jfit格式）
+ */
+const downloadRes = async (url, name) => {
+    let response = await fetch(url)
+    // 内容转变成blob地址
+    let blob = await response.blob()
+    // 创建隐藏的可下载链接
+    let objectUrl = window.URL.createObjectURL(blob)
+    let a = document.createElement('a')
+    //地址
+    a.href = objectUrl
+    //修改文件名
+    a.download = name
+    // 触发点击
+    document.body.appendChild(a)
+    a.click()
+    //移除
+    setTimeout(() => document.body.removeChild(a), 1000)
+}
+
+/**
+ * @description 借助 base64 下载图片资源
+ * @param {*} url 图片url
+ * @param {*} name 图片名（需要带后缀，否则默认下载jfit格式）
+ * */ 
+const downloadImg = async (url, name) => {
+    var canvas = document.createElement('canvas'),
+        ctx = canvas.getContext('2d'),
+        img = new Image();
+    img.crossOrigin = 'Anonymous';
+    img.onload = function() {
+        canvas.height = img.height;
+        canvas.width = img.width;
+        ctx.drawImage(img, 0, 0);
+        var dataURL = canvas.toDataURL('image/png');
+        let a = document.createElement('a');
+        a.href = dataURL;
+        a.download = name;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => {
+            document.body.removeChild(a);
+            canvas = null;
+        }, 1000);
+    };
+    img.src = url;
+};
