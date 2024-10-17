@@ -100,12 +100,12 @@ function throttle(fn, interval, options = { leading: true, trailing: false }) {
 function getQueryString(name) {
     var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
     var reg_rewrite = new RegExp('(^|/)' + name + '/([^/]*)(/|$)', 'i')
-    var r = window.location.search.substr(1).match(reg)
-    var q = window.location.pathname.substr(1).match(reg_rewrite)
+    var r = window.location.search.substring(1).match(reg)
+    var q = window.location.pathname.substring(1).match(reg_rewrite)
     if (r != null) {
-        return unescape(r[2])
+        return encodeURIComponent(r[2])
     } else if (q != null) {
-        return unescape(q[2])
+        return encodeURIComponent(q[2])
     } else {
         return ''
     }
