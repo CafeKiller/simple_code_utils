@@ -253,3 +253,53 @@ class ILog {
         )
     }
 }
+
+/**
+ * @description 压缩图片，转换为 base64 图片
+ * @param { string } src 待图片的路径
+ * @param { number } quality 压缩质量，范围[0, 1]
+ * @param { function } callback 回调函数
+ * */ 
+function compressImg(src: string, quality: number, callback: Function): void {
+    const img: HTMLImageElement = new Image();
+    img.src = src;
+    img.onload = function () {
+        const that = this as HTMLImageElement;
+        // 默认按比例压缩
+        const w = that?.width;
+        const h = that?.height;
+        // const scale = w / h;
+        // 生成canvas
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        // 创建属性节点
+        const anw = document.createAttribute("width");
+        anw.nodeValue = String(w);
+        const anh = document.createAttribute("height");
+        anh.nodeValue = String(h);
+        canvas.setAttributeNode(anw);
+        canvas.setAttributeNode(anh);
+        ctx?.drawImage(that, 0, 0, w, h);
+
+        // quality值越小，所绘制出的图像越模糊
+        const base64 = canvas.toDataURL('image/jpeg', quality);
+        // 回调函数返回base64的值
+        if(callback) callback(base64);
+    }
+}
+
+/**
+ * @description 将base64字符串转化为图片并下载
+ * @param base64Str base64字符串
+ * @param name 图片名称
+ * */ 
+function downloadBase64toImg(base64Str: string, name: string = 'temp') {
+    const a = document.createElement('a');
+    a.href = base64Str;
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => {
+        document.body.removeChild(a);
+    }, 1000);
+}
